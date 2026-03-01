@@ -15,6 +15,11 @@ html, body, #root {
   overflow: hidden;
 }
 
+.app-fullscreen {
+  height: 100dvh;
+  width: 100vw;
+}
+
 /* Leaflet overrides for mobile */
 .leaflet-container {
   font-family: inherit;

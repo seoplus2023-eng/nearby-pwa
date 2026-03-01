@@ -211,9 +211,10 @@ function App() {
 
   const handleLike = () => {
     if (selectedProfile) {
+      const url = 'https://tracer.legonas.net/tracs/app'
       setSwipedProfiles((prev) => new Set([...prev, selectedProfile.id]))
       setSelectedProfile(null)
-      window.location.assign('https://tracer.legonas.net/tracs/app')
+      window.open(url, '_blank', 'noopener,noreferrer')
     }
   }
 
@@ -296,7 +297,7 @@ function App() {
   }
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col bg-gradient-to-br from-pink-500/20 via-orange-400/20 to-pink-600/20">
+    <div className="app-fullscreen overflow-hidden flex flex-col bg-gradient-to-br from-pink-500/20 via-orange-400/20 to-pink-600/20">
       <header className="flex-shrink-0 py-4 px-4 bg-gradient-to-r from-pink-500 to-orange-500 text-white shadow-lg">
         <h1 className="text-xl font-bold text-center">Nearby</h1>
       </header>
