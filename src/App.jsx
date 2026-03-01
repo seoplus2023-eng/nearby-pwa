@@ -128,7 +128,14 @@ function App() {
   const fetchProfiles = useCallback(async (lat, lon) => {
     try {
       const count = 15 + Math.floor(Math.random() * 26) // 15–40 человек
-      const res = await fetch(`https://randomuser.me/api/?results=${count}&gender=female`)
+      const isLocal =
+        typeof window !== 'undefined' &&
+        (window.location.hostname === 'localhost' ||
+          window.location.hostname === '127.0.0.1')
+      const url = isLocal
+        ? `https://randomuser.me/api/?results=${count}&gender=female`
+        : `/api/random-users?results=${count}&gender=female`
+      const res = await fetch(url)
       const data = await res.json()
       const users = (data.results || []).map((u) => {
         const [profileLat, profileLon] = randomPointNear(lat, lon, 1000)
