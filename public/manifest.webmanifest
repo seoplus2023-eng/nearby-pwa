@@ -2,12 +2,13 @@
   "name": "Nearby",
   "short_name": "Nearby",
   "description": "Nearby profiles on a map",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "https://nearby-pwa-mu.vercel.app/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#ec4899",
+  "lang": "en",
+  "scope": "/",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/icons/icon-192.svg",
@@ -23,4 +24,3 @@
     }
   ]
 }
-
