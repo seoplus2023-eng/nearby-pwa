@@ -16,6 +16,23 @@ function randomPointNear(lat, lon, radiusMeters = 1000) {
   return [lat + latOffset, lon + lonOffset]
 }
 
+function buildFallbackProfiles(lat, lon, count) {
+  const names = ['Anna', 'Maria', 'Sofia', 'Emma', 'Olivia', 'Mia', 'Eva', 'Daria']
+  const profiles = []
+  for (let i = 0; i < count; i += 1) {
+    const [profileLat, profileLon] = randomPointNear(lat, lon, 1000)
+    profiles.push({
+      id: `fallback-${Date.now()}-${i}`,
+      name: names[i % names.length],
+      age: 21 + (i % 15),
+      photo: `https://randomuser.me/api/portraits/women/${i % 90}.jpg`,
+      lat: profileLat,
+      lon: profileLon,
+    })
+  }
+  return profiles
+}
+
 function MapUpdater({ center }) {
   const map = useMap()
   useEffect(() => {
@@ -137,20 +154,24 @@ function App() {
         : `/api/random-users?results=${count}&gender=female`
       const res = await fetch(url)
       const data = await res.json()
-      const users = (data.results || []).map((u) => {
-        const [profileLat, profileLon] = randomPointNear(lat, lon, 1000)
-        return {
-          id: u.login.uuid,
-          name: `${u.name.first} ${u.name.last}`,
-          age: u.dob.age,
-          photo: u.picture.large,
-          lat: profileLat,
-          lon: profileLon,
-        }
-      })
+      const apiResults = Array.isArray(data.results) ? data.results : []
+      const users =
+        apiResults.length > 0
+          ? apiResults.map((u) => {
+              const [profileLat, profileLon] = randomPointNear(lat, lon, 1000)
+              return {
+                id: u.login.uuid,
+                name: `${u.name.first} ${u.name.last}`,
+                age: u.dob.age,
+                photo: u.picture.large,
+                lat: profileLat,
+                lon: profileLon,
+              }
+            })
+          : buildFallbackProfiles(lat, lon, count)
       setProfiles(users)
     } catch (err) {
-      setError('Failed to load profiles')
+      setProfiles(buildFallbackProfiles(lat, lon, 20))
     } finally {
       setLoading(false)
     }
