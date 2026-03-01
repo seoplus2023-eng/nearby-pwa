@@ -17,7 +17,7 @@ export default defineConfig({
         description: 'Nearby profiles on a map',
         start_url: '/',
         scope: '/',
-        display: 'standalone',
+        display: 'fullscreen',
         orientation: 'portrait',
         background_color: '#ffffff',
         theme_color: '#ec4899',
